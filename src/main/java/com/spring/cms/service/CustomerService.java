@@ -1,10 +1,12 @@
 package com.spring.cms.service;
 
 import com.spring.cms.model.Customer;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+@Component
 public class CustomerService {
 
     private int customerIdCount = 1;
