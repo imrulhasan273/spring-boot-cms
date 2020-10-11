@@ -1,4 +1,4 @@
-package com.spring.cms.api;
+package com.spring.cms.ApiController;
 
 import com.spring.cms.model.Customer;
 import com.spring.cms.service.CustomerService;
@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/customers")
-public class CustomerResource {
+public class CustomerController {
 
     @Autowired
     private CustomerService customerService;

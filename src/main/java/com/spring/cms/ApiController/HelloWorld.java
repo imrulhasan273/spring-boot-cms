@@ -1,4 +1,4 @@
-package com.spring.cms.api;
+package com.spring.cms.ApiController;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

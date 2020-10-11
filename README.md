@@ -152,12 +152,12 @@ public class CustomerService {
 
 ## API
 
-### Customer Resource
+### Customer Controller
 
-`com.spring.cms/cms/api/CustomerResource`
+`com.spring.cms/cms/ApiController/CustomerController`
 
 ```java
-package com.spring.cms.api;
+package com.spring.cms.ApiController;
 
 import com.spring.cms.model.Customer;
 import com.spring.cms.service.CustomerService;
@@ -168,7 +168,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/customers")
-public class CustomerResource {
+public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
