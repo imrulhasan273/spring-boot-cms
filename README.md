@@ -219,3 +219,30 @@ public class CustomerController {
 ---
 
 ---
+
+# **@JsonProperty**
+
+---
+
+- When client use the API to run POST,GET,PUT,DELETE etc operation in my project, they use the same column name that are defined in our `Model`
+- But I don't want to expose the real column names to the client.
+- In that case we need `@JsonProperty`
+
+```java
+@JsonProperty("id")
+private int CustomerId;
+
+@JsonProperty("firstName")
+private String customerFirstName;
+
+@JsonProperty("lastName")
+private String customerLastName;
+
+@JsonProperty("email")
+private String customerEmail;
+```
+- Here `CustomerId` is called by `id` in Client API.
+
+---
+
+---

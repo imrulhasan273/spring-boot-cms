@@ -1,9 +1,16 @@
 package com.spring.cms.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Customer {
+
+    @JsonProperty("id")
     private int CustomerId;
+    @JsonProperty("firstName")
     private String customerFirstName;
+    @JsonProperty("lastName")
     private String customerLastName;
+    @JsonProperty("email")
     private String customerEmail;
 
     public int getCustomerId() {
