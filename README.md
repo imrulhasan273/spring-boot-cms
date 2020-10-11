@@ -229,17 +229,20 @@ public class CustomerController {
 - In that case we need `@JsonProperty`
 
 ```java
-@JsonProperty("id")
-private int CustomerId;
-
-@JsonProperty("firstName")
-private String customerFirstName;
-
-@JsonProperty("lastName")
-private String customerLastName;
-
-@JsonProperty("email")
-private String customerEmail;
+public class Customer
+{
+    @JsonProperty("id")
+    private int CustomerId;
+    
+    @JsonProperty("firstName")
+    private String customerFirstName;
+    
+    @JsonProperty("lastName")
+    private String customerLastName;
+    
+    @JsonProperty("email")
+    private String customerEmail;
+}
 ```
 - Here `CustomerId` is called by `id` in Client API.
 
