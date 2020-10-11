@@ -14,6 +14,7 @@
 package com.spring.cms.model;
 
 public class Customer {
+    
     private int CustomerId;
     private String customerFirstName;
     private String customerLastName;
@@ -53,6 +54,9 @@ public class Customer {
 }
 ```
 
+- `columns` are defined using private variable above of the code segment.
+- 
+
 ---
 
 ## Service
@@ -73,9 +77,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Component
 public class CustomerService {
 
-    private int customerIdCount = 1;
-    private List<Customer> customerList = new CopyOnWriteArrayList<>();
+    private int customerIdCount = 1; 
 
+    private List<Customer> customerList = new CopyOnWriteArrayList<>(); 
 
     public Customer addCustomer(Customer customer)
     {
@@ -131,6 +135,18 @@ public class CustomerService {
     }
 }
 ```
+
+- This file contains all the business logic for the Customer Management System.
+- `private int customerIdCount = 1;`
+    - this variable is defined because we need a unique id for a customer.
+    - We need save the id. But in the below function
+    - say for example, in `addCustomer()` function we inject `Customer customer` as parameter. But ths `customer` contains info except `id`
+    - So we generate ID from this file inside functions which is primarily defined using the private variable.
+- `private List<Customer> customerList = new CopyOnWriteArrayList<>();`
+    - this array `CopyOnWriteArrayList` type is used for concurrent operation.
+    - This List contains all the Customer details.
+- We use `@Component` to annoted the `CustomerService` class.
+    - So that we can use this class inside another class and for that we need to annoted using `@Autowired` with reference class which is that class.
 
 ---
 
@@ -192,7 +208,14 @@ public class CustomerResource {
 ```
 
 - It will works like Controller.
-
+- This controller is annotate by `@RestController`
+- `private CustomerService customerService;`
+    - Using that line we use the class `CustomerService` in this class using reference variable `customerService`
+    - And inject it using `@Autowired` in this `Resource` class above the reference.
+    - As we use the `@Autowired` we need to make sure. the reference class which is `CustomerService` class should be annotated with `@Component`
+    
+    
+    
 ---
 
 ---
