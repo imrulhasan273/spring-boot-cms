@@ -249,3 +249,30 @@ public class Customer
 ---
 
 ---
+
+# **Add a Database**
+
+---
+
+Add e new dependency in `pom.xml`
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+```
+
+Added the H2 DataBase Engine Dependency 
+
+```xml
+<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+<dependency>
+    <groupId>com.h2database</groupId>
+	<artifactId>h2</artifactId>
+	<version>1.4.200</version>
+	<scope>test</scope>
+</dependency>
+```
+
+---
