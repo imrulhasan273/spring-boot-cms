@@ -360,7 +360,7 @@ public class CmsApplication {
 
 ---
 
-# **CRUD Operation | H2 DB**
+# **CRUD Operation | H2 DB | RestAPI**
 
 ---
 
@@ -446,6 +446,22 @@ public class CustomerService {
 - In `public void deleteCustomer(int customerId)` we delete the customer using `deleteById(customerId);` method.
 
 ---
+
+---
+
+## Fixing for Loosing Data on Start App Everytime
+
+---
+
+`resources/application.properties`
+
+```properties
+spring.datasource.url=jdbc:h2:~/test;DB_CLOSE_ON_EXIT=FALSE
+spring.jpa.hibernate.ddl-auto=update
+```
+
+- First line indicate not to stop the database when we exit the server.
+- Second line is to create the DB Table and next time force it to update not create again and again.
 
 ---
 
