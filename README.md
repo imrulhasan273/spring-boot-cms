@@ -467,7 +467,7 @@ spring.jpa.hibernate.ddl-auto=update
 
 ---
 
-# ** Custom Error Handling** [SOLVED]
+# **Custom Error Handling** [SOLVED]
 
 ---
 
