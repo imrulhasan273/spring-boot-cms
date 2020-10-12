@@ -276,3 +276,86 @@ Added the H2 DataBase Engine Dependency
 ```
 
 ---
+
+# **CRUD Operation using DB | Configuration**
+
+---
+
+## Convert the `Customer` model class to Entity.
+
+```java
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Customer {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonProperty("id")
+    private int CustomerId;
+
+    @JsonProperty("firstName")
+    private String customerFirstName;
+
+    @JsonProperty("lastName")
+    private String customerLastName;
+
+    @JsonProperty("email")
+    private String customerEmail;
+}
+```
+
+- `@Entity`
+- `@Id`
+    - to define primary key as `ID`
+- `@GeneratedValue(strategy = GenerationType.AUTO)`
+    - to set primary key `Auto Increamenting`
+
+## Create a new interface
+
+`dao/CustomerDAO.java`
+
+```java
+package com.spring.cms.dao;
+
+import com.spring.cms.model.Customer;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CustomerDAO extends CrudRepository<Customer, Integer> {
+    //
+}
+```
+
+## Main Class
+
+`CmsApplication.java`
+
+```java
+package com.spring.cms;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+@SpringBootApplication
+@EnableJpaRepositories
+public class CmsApplication {
+
+	public static void main(String[] args) {
+
+		SpringApplication.run(CmsApplication.class, args);
+	}
+}
+
+```
+- Add `@EnableJpaRepositories` in this main class.
+
+---
+
+---
