@@ -465,3 +465,127 @@ spring.jpa.hibernate.ddl-auto=update
 
 ---
 
+---
+
+# ** Custom Error Handling** [SOLVED]
+
+---
+
+- If I fetch the data from API which is not in DB?
+
+## Exception
+
+`exception/CustomerNotFoundException.java`
+
+```java
+package com.spring.cms.exception;
+
+public class CustomerNotFoundException extends RuntimeException {
+
+    public CustomerNotFoundException(String message)
+    {
+        super(message);
+    }
+}
+```
+
+`exception/ApplicationError.java`
+
+```java
+package com.spring.cms.exception;
+
+public class ApplicationError {
+
+    private int code;
+    private String message;
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+}
+```
+
+## ApiController
+
+`ApiController/ErrorHandler.java`
+
+```java
+package com.spring.cms.ApiController;
+
+import com.spring.cms.exception.ApplicationError;
+import com.spring.cms.exception.CustomerNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+@ControllerAdvice
+@RestController
+public class ErrorHandler extends ResponseEntityExceptionHandler {
+
+    @ExceptionHandler(CustomerNotFoundException.class)
+    public ResponseEntity<ApplicationError> handleCustomerNotFoundException(CustomerNotFoundException exception, WebRequest webRequest)
+    {
+        ApplicationError error = new ApplicationError();
+        error.setCode(101);
+        error.setMessage(exception.getMessage());
+
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+}
+```
+
+## Service
+
+`service/CustomerService.java`
+
+```java
+package com.spring.cms.service;
+
+import com.spring.cms.dao.CustomerDAO;
+import com.spring.cms.exception.CustomerNotFoundException;
+import com.spring.cms.model.Customer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Optional;
+
+@Component
+public class CustomerService {
+
+    @Autowired
+    private CustomerDAO customerDAO;
+
+    public Customer getCustomer(int customerId)
+    {
+        Optional<Customer> optionalCustomer =  customerDAO.findById(customerId);
+
+        if(!optionalCustomer.isPresent())
+        {
+            throw new CustomerNotFoundException("Customer record is not available...");
+        }
+
+        return optionalCustomer.get();
+    }
+}
+```
+
+---
+
+---
