@@ -15,17 +15,17 @@ package com.spring.cms.model;
 
 public class Customer {
     
-    private int CustomerId;
+    private int customerId;
     private String customerFirstName;
     private String customerLastName;
     private String customerEmail;
 
     public int getCustomerId() {
-        return CustomerId;
+        return customerId;
     }
 
     public void setCustomerId(int customerId) {
-        CustomerId = customerId;
+        this.customerId = customerId;
     }
 
     public String getCustomerFirstName() {
@@ -296,7 +296,7 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonProperty("id")
-    private int CustomerId;
+    private int customerId;
 
     @JsonProperty("firstName")
     private String customerFirstName;
@@ -359,3 +359,93 @@ public class CmsApplication {
 ---
 
 ---
+
+# **CRUD Operation | H2 DB**
+
+---
+
+`com.spring.cms/dao/CustomerDAO.java`
+
+```java
+package com.spring.cms.dao;
+
+import com.spring.cms.model.Customer;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface CustomerDAO extends CrudRepository<Customer, Integer> {
+
+    @Override
+    List<Customer> findAll();
+}
+```
+
+`com.spring.cms/service/CustomerService.java`
+
+```java
+package com.spring.cms.service;
+
+import com.spring.cms.dao.CustomerDAO;
+import com.spring.cms.model.Customer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+public class CustomerService {
+
+
+    @Autowired
+    private CustomerDAO customerDAO;
+
+    public Customer addCustomer(Customer customer)
+    {
+        return customerDAO.save(customer);
+    }
+
+    public List<Customer> getCustomerList(){
+        return customerDAO.findAll();
+    }
+
+    public Customer getCustomer(int customerId)
+    {
+        return customerDAO.findById(customerId).get();
+    }
+
+    public Customer updateCustomer(int customerId, Customer customer)
+    {
+        customer.setCustomerId(customerId);
+        return customerDAO.save(customer);
+
+    }
+
+    public void deleteCustomer(int customerId)
+    {
+        customerDAO.deleteById(customerId);
+    }
+}
+```
+
+- First we `@Autowired` CustomerDAO class with reference variable.
+- In `addCustomer(Customer customer)` we simply insert a data using `save()` method.
+- In `getCustomerList()` method we want to GET a list of Customer.
+    - But we use `customerDAO.findAll();` to get the customers.
+        - But this `findlALl()` doesn't return a list by default.
+        - So we need to override the method in `CustomerDAO` **interface** to get a list instead.
+            - We `@Override` `List<Customer> findAll();`
+- In `updateCustomer(int customerId, Customer customer)` method we don't have any update function directly.
+    - But we have `save()` method. It works for both **insert** and **update** operation.
+        - When we pass `Customer` and that doesn't contain the `id` then `save()` method works like insert method.
+        - when we pass `Customer` that contains `CustomerId` then it will operate the update operation.
+        - Here we pass `Customer` that contains `CustomerId` so it will operate like **update** operation..
+
+- In `public void deleteCustomer(int customerId)` we delete the customer using `delete()` method.
+
+---
+
+---
+

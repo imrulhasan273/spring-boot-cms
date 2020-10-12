@@ -14,23 +14,20 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonProperty("id")
-    private int CustomerId;
-
+    private int customerId;
     @JsonProperty("firstName")
     private String customerFirstName;
-
     @JsonProperty("lastName")
     private String customerLastName;
-
     @JsonProperty("email")
     private String customerEmail;
 
     public int getCustomerId() {
-        return CustomerId;
+        return customerId;
     }
 
     public void setCustomerId(int customerId) {
-        CustomerId = customerId;
+        this.customerId = customerId;
     }
 
     public String getCustomerFirstName() {
