@@ -443,7 +443,7 @@ public class CustomerService {
         - when we pass `Customer` that contains `CustomerId` then it will operate the update operation.
         - Here we pass `Customer` that contains `CustomerId` so it will operate like **update** operation..
 
-- In `public void deleteCustomer(int customerId)` we delete the customer using `delete()` method.
+- In `public void deleteCustomer(int customerId)` we delete the customer using `deleteById(customerId);` method.
 
 ---
 
