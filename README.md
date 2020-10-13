@@ -667,11 +667,110 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
 
 And finally use this Exception where it needed.
 
-```java
-    throw new NotFoundException("Data Not Found");
+`throw new NotFoundException("Data Not Found");`
+
+
+---
+
+---
+
+# **Accessing Properties**
+
+---
+
+## resources
+
+`resources/application.properties`
+
+```properties
+api_doc_url=http://api.localhost.com
 ```
 
+- `url` is saved in that `api_doc_url` variable
+
+## exception
+
+`Exception/ApplicationError.java`
+
+```java
+package com.spring.cms.exception;
+
+public class ApplicationError {
+
+    private int code;
+    private String message;
+    private String details;
+
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+}
+```
+
+- New private variable `details` is added with getter and setter
+
+## ApiController
+
+`ApiController/ErrorHandler.java`
+
+```java
+package com.spring.cms.ApiController;
+
+import com.spring.cms.exception.ApplicationError;
+import com.spring.cms.exception.CustomerNotFoundException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+@ControllerAdvice
+@RestController
+public class ErrorHandler extends ResponseEntityExceptionHandler {
+
+    @Value("${api_doc_url}")
+    private String details;
+
+    @ExceptionHandler(CustomerNotFoundException.class)
+    public ResponseEntity<ApplicationError> handleCustomerNotFoundException(CustomerNotFoundException exception, WebRequest webRequest)
+    {
+        ApplicationError error = new ApplicationError();
+        error.setCode(101);
+        error.setMessage(exception.getMessage());
+        error.setDetails(details);
+
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+}
+```
+
+- New variable defined as `private String details;`
+- The variable annotated with `@Value("${api_doc_url}")` to access the `application.properties`
+- Use this `error.setDetails(details);` to view in API.
 
 ---
 
----
