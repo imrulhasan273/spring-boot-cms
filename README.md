@@ -594,4 +594,84 @@ public class CustomerService {
 
 ---
 
+> For example We have another exception to handle. How to add another Exception?
 
+## Exception
+
+Create Below Exception in `exception` folder.
+
+`exception/NotFoundException.java`
+
+```java
+package com.spring.cms.exception;
+
+public class NotFoundException extends RuntimeException{
+    public NotFoundException(String message)
+    {
+        super(message);
+    }
+}
+```
+
+## ApiController
+
+Add the Handler Method for the Exception in `ApiController`
+
+`ApiController/ErrorHandler.java`
+
+```java
+package com.spring.cms.ApiController;
+
+import com.spring.cms.exception.ApplicationError;
+import com.spring.cms.exception.CustomerNotFoundException;
+import com.spring.cms.exception.NotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+@ControllerAdvice
+@RestController
+public class ErrorHandler extends ResponseEntityExceptionHandler {
+
+    // First Exception Handler
+    @ExceptionHandler(CustomerNotFoundException.class)
+    public ResponseEntity<ApplicationError> handleCustomerNotFoundException(CustomerNotFoundException exception, WebRequest webRequest)
+    {
+        ApplicationError error = new ApplicationError();
+        error.setCode(101);
+        error.setMessage(exception.getMessage());
+
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    // Another Exception Handler
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ApplicationError> handleNotFoundException(NotFoundException exception, WebRequest webRequest){
+        ApplicationError error = new ApplicationError();
+        error.setCode(201);
+        error.setMessage(exception.getMessage());
+
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+}
+```
+
+- Look, We have added another `ResponseEntity` for new Exception in that `ErrorHandler` class.
+
+## Service
+
+And finally use this Exception where it needed.
+
+```java
+    throw new NotFoundException("Data Not Found");
+```
+
+
+---
+
+---
