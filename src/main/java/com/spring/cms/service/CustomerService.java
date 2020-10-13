@@ -2,6 +2,7 @@ package com.spring.cms.service;
 
 import com.spring.cms.dao.CustomerDAO;
 import com.spring.cms.exception.CustomerNotFoundException;
+import com.spring.cms.exception.NotFoundException;
 import com.spring.cms.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,6 +35,7 @@ public class CustomerService {
         {
             throw new CustomerNotFoundException("Customer record is not available...");
         }
+
 
         return optionalCustomer.get();
     }
