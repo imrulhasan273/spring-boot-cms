@@ -805,4 +805,129 @@ public class Home {
 
 ---
 
+---
+
+# **Adding a Filer**
+
+---
+
+- CNTL + I = Method Palate
+
+`filter/MyFilter_1.java`
+
+```java
+package com.spring.cms.filter;
+
+import org.springframework.stereotype.Component;
+
+import javax.servlet.*;
+import java.io.IOException;
+
+@Component
+public class MyFilter_1 implements Filter {
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        System.out.println("Filter 1 is called...");
+
+        filterChain.doFilter(servletRequest, servletResponse);
+    }
+}
+```
+
+- If server got a response, before that response the Filter will be called.
+
+---
+
+---
+
+## **Handing Multiple Filter**
+
+---
+
+`MyFilter_1.java`
+
+```java
+package com.spring.cms.filter;
+
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.*;
+import java.io.IOException;
+
+@Component
+@Order(2)
+public class MyFilter_1 implements Filter {
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        System.out.println("Filter 1 is called...");
+
+        filterChain.doFilter(servletRequest, servletResponse);
+    }
+}
+```
+
+- `@Order(2)`
+    - This filter will be called 2nd
+
+`MyFilter_2.java`
+
+```java
+package com.spring.cms.filter;
+
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.*;
+import java.io.IOException;
+
+@Component
+@Order(3)
+public class MyFilter_2 implements Filter {
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        System.out.println("Filter 2 is called...");
+
+        filterChain.doFilter(servletRequest, servletResponse);
+    }
+}
+```
+
+- `@Order(3)`
+    - This filter will be called 3rd
+
+`MyFilter_3.java`
+
+```java
+package com.spring.cms.filter;
+
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.*;
+import java.io.IOException;
+
+@Component
+@Order(1)
+public class MyFilter_3 implements Filter {
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        System.out.println("Filter 3 is called...");
+
+        filterChain.doFilter(servletRequest, servletResponse);
+    }
+}
+```
+
+- `@Order(1)`
+    - This filter will be called 1st
+
+---
+
+---
+
 
