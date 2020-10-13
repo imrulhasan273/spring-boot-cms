@@ -930,4 +930,62 @@ public class MyFilter_3 implements Filter {
 
 ---
 
+# **Configuring URL Pattern of Filter**
+
+---
+
+- Our goal is to set a Filter that should be called for specific request not any request.
+
+## Create a new Filter
+
+`filter/MyNewFilter.java`
+
+```java
+package com.spring.cms.filter;
+
+import org.springframework.stereotype.Component;
+
+import javax.servlet.*;
+import java.io.IOException;
+
+@Component
+public class MyNewFilter implements Filter {
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        System.out.println("The New Filter is called...");
+
+        filterChain.doFilter(servletRequest, servletResponse);
+    }
+}
+```
+
+## Create a configuration for MyNewFilter
+
+`config/MyFilterConfig.java`
+
+```java
+package com.spring.cms.config;
+
+import com.spring.cms.filter.MyNewFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class MyFilterConfig  {
+
+    @Bean
+    public FilterRegistrationBean<MyNewFilter> registrationBean(){
+        FilterRegistrationBean<MyNewFilter> registrationBean = new FilterRegistrationBean<>();
+
+        registrationBean.setFilter(new MyNewFilter());
+        registrationBean.addUrlPatterns("/customers/*");
+        return registrationBean;
+    }
+}
+```
+
+- So here we configure our `MyNewFilter` only to be called when user requests url with starts `/customers/`
+
+---
 
